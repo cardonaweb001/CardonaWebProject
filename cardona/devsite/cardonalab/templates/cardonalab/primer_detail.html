@@ -1,0 +1,17 @@
+{% extends "cardonalab/detail_base.html" %}
+
+{% block object_body %}
+<h2>Primer #{{object.id}}</h2><br>
+<table>
+    <tr><td><b>Sequence</b></td><td>{{object.sequence}}</td></tr>
+    <tr><td><b>Tm</b></td><td>{{object.tm}}</td></tr>
+    <tr><td><b>Template</b></td><td>{{object.template}}</td></tr>
+    <tr><td><b>Location</b></td><td>{{object.location}}</td></tr>
+    <tr><td><b>Restriction Sites</b></td><td>{{object.restriction_sites}}</td></tr>
+</table>
+<br>
+{% if object.notes|length > 0 %}
+    <b>Additional notes:</b><br>
+    {{ object.notes }}
+{% endif %}
+{% endblock %}

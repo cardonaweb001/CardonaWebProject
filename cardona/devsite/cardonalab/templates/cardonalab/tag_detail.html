@@ -1,0 +1,13 @@
+{% extends "cardonalab/detail_base.html" %}
+
+{% block object_body %}
+<h2>Tag: {{object.name}}</h2>
+{{object.protocol_set.all|length}} protocol{{object.protocol_set.all|pluralize}}
+ with this tag <a href="{% url 'admin:cardonalab_protocol_changelist' %}?tags__id__exact={{object.id}}">(view on protocol page&#8594;)</a>
+
+<ul>
+{% for protocol in object.protocol_set.all %}
+<li><a href="{% url 'admin:Protocol_view' protocol.id %}">{{protocol.title}}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

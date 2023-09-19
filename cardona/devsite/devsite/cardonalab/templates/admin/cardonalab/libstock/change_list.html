@@ -1,0 +1,22 @@
+{% extends "admin/change_list.html" %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a> &rsaquo;
+     <a href="{% url 'admin:app_list' 'cardonalab' %}">Cardonalab</a> &rsaquo;
+     <a href="{% url 'admin:cardonalab_library_changelist' %}">Libraries</a> &rsaquo;
+     {{library.name}}
+</div>
+{% endblock %}
+{% endif %}
+
+{% block filters %}{% endblock %}
+
+{% block object-tools-items %}
+    <li>
+        <a class="addlink" href="{% url 'admin:cardonalab_libstock_add' %}?_changelist_filters=library__id__exact%3D{{ library.id }}&library={{ library.id }}">Add stock to library</a>
+    </li>
+{% endblock %}
+
+{% block content_title %}<h1>{{ library.name }}</h1>{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a> &rsaquo;
+     <a href="{% url 'admin:app_list' 'cardonalab' %}">Cardonalab</a> &rsaquo;
+     <a href="{% url 'admin:cardonalab_library_changelist' %}">Libraries</a> &rsaquo;
+     Create library
+</div>
+{% endblock %}
+{% endif %}
+
+{% block content %}
+<h1>Create library from file</h1>
+
+<a href="{% static "cardonalab/Library_Template.xlsx" %}">Download template excel sheet</a>
+
+<br><br>
+
+<ol>
+    <li>Download the template from the link above</li>
+    <li>Open the template file and fill the Excel sheet with library contents, one item per line. The first 5 columns are
+        mandatory, the other 4 columns are optional.</li>
+    <li>Save the Excel file and upload it using the "Choose File" button below, enter the library name, then click Submit.</li>
+</ol>
+
+<br>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

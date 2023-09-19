@@ -1,0 +1,8 @@
+{% extends "cardonalab/detail_base.html" %}
+
+{% block object_body %}
+<h2>{{object.title}}</h2>
+
+{{ object.body|safe }}
+
+{% endblock %}

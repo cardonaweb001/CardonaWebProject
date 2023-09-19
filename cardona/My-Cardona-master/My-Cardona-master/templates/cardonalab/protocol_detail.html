@@ -1,0 +1,12 @@
+{% extends "cardonalab/detail_base.html" %}
+
+{% block object_body %}
+<h2>{{object.title}}</h2>
+{% if object.tags.all|length > 0 %}
+Tags: {% for tag in object.tags.all %}<a href="{% url 'admin:Tag_view' tag.id %}">{{tag}}</a>{% if not forloop.last %},{% endif %} {% endfor %}
+<br><br>
+{% endif %}
+
+{{ object.body|safe }}
+
+{% endblock %}

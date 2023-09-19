@@ -1,0 +1,44 @@
+{% extends "cardonalab/detail_base.html" %}
+{% load filename %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a> &rsaquo;
+     <a href="{% url 'admin:app_list' 'cardonalab' %}">Cardonalab</a> &rsaquo;
+     <a href="{% url 'admin:cardonalab_library_changelist' %}">Libraries</a> &rsaquo;
+     <a href="{% url 'admin:cardonalab_libstock_changelist' %}?library__id__exact={{object.library.id}}">{{object.library.name}}</a> &rsaquo;
+     {{object.stock_id}}
+</div>
+{% endblock %}
+{% endif %}
+
+{% block object-tools %}
+<ul class="object-tools">
+  {% block object-tools-extra %}{% endblock %}
+  {% if is_bookmarked %}
+  <li><a href="../remove_bookmark">Remove Bookmark</a></li>
+  {% else %}
+  <li><a href="../add_bookmark" class="addlink">Bookmark</a></li>
+  {% endif %}
+  <li><a href="../history">History</a></li>
+  <li><a href="{% url 'admin:cardonalab_libstock_change' object.id %}?_changelist_filters=library__id__exact%3D{{object.library.id}}" class="viewsitelink">Edit</a></li>
+</ul>
+{% endblock %}
+
+{% block object_body %}
+<h2>{{object}}</h2><br>
+<table>
+    <tr><td><b>Location</b></td><td>{{object.location}}</td></tr>
+    <tr><td><b>Species</b></td><td>{{object.species}}</td></tr>
+    <tr><td><b>Gene Target</b></td><td>{{object.gene_target}}</td></tr>
+    <tr><td><b>Plasmid Map</b></td><td>{% if object.plasmid_map %}<a href="{{object.plasmid_map.url}}">{{object.plasmid_map.name|filename}}</a>{% else %}(No file attached){% endif %}</td></tr>
+    <tr><td><b>Forward Primer</b></td><td>{% if object.forward_primer %}<a href="{% url 'admin:Primer_view' object.forward_primer.id %}">{{object.forward_primer}}</a>{% endif %}</td></tr>
+    <tr><td><b>Resistance</b></td><td>{{object.resistance}}</td></tr>
+</table>
+<br>
+{% if object.notes|length > 0 %}
+    <b>Additional notes:</b><br>
+    {{ object.notes }}
+{% endif %}
+{% endblock %}

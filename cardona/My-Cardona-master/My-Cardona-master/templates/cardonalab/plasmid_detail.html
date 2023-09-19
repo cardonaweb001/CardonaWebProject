@@ -1,0 +1,28 @@
+{% extends "cardonalab/detail_base.html" %}
+
+{% block object-tools-extra %}
+<li><a class="addlink" href="{% url 'admin:cardonalab_stock_add' %}?plasmid={{object.id}}">Create Stock</a></li>
+{% endblock %}
+
+{% block object_body %}
+<h2>{{object.name}}</h2><br>
+<table>
+    <tr><td><b>Marker</b></td><td>{{object.marker}}</td></tr>
+    {% if object.primers.all|length > 0 %}<tr><td><b>Primers</b></td><td>{% for primer in object.primers.all %}<a href="{% url 'admin:Primer_view' primer.id %}">{{primer}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>{% endif %}
+    <tr><td><b>Notes</b></td><td>{{object.notes}}</td></tr>
+</table>
+
+{% if object.stock_set.all|length > 0 %}
+<h2>Found in stocks:</h2>
+<table>
+    <tr><td><b>Stock id</b></td><td><b>Strain</b></td></tr>
+
+    {% for stock in object.stock_set.all %}
+    <tr><td><a href="{% url 'admin:Stock_view' stock.id %}">{{stock.id}}</a></td><td><a href="{% url 'admin:Strain_view' stock.strain.id %}">{{stock.strain}}</a></td></tr>
+    {% endfor %}
+
+</table>
+{% else %}
+<br>No stocks with this plasmid
+{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "cardonalab/detail_base.html" %}
+
+{% block object_body %}
+<h2>Stock #{{object.id}}</h2><br>
+<table>
+    <tr><td><b>Strain</b></td><td>{% if object.strain %}<a href="{% url 'admin:Strain_view' object.strain.id %}">{{object.strain}}</a>{% else %}None{% endif %}</td></tr>
+    <tr><td><b>Plasmid</b></td><td>{% if object.plasmid %}<a href="{% url 'admin:Plasmid_view' object.plasmid.id %}">{{object.plasmid}}</a>{% else %}None{% endif %}</td></tr>
+    <tr><td><b>Notes</b></td><td>{{object.notes}}</td></tr>
+</table>
+{% endblock %}

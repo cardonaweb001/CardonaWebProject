@@ -1,0 +1,18 @@
+{% extends "cardonalab/detail_base.html" %}
+
+{% block object_body %}
+<h2>{{object.name}}</h2><br>
+<table>
+    <tr><td><b>Code</b></td><td>{{object.code}}</td></tr>
+    <tr><td><b>Location</b></td><td>{{object.location}}{% if not object.in_stock%} <span style="color:red">(out of stock)</span>{% endif %}</td></tr>
+    <tr><td><b>Manufacturer</b></td><td>{{object.manufacturer}}</td></tr>
+    {% if object.msds|length > 0 %}
+    <tr><td></td><td><a href="{{object.msds}}">Link to MSDS</a></td></tr>
+    {% endif %}
+</table>
+<br>
+{% if object.notes|length > 0 %}
+    <b>Additional notes:</b><br>
+    {{ object.notes }}
+{% endif %}
+{% endblock %}

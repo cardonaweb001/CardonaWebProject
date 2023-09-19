@@ -1,0 +1,53 @@
+{% extends "admin/base_site.html" %}
+
+{% load filename %}{% load admin_urls %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a> &rsaquo;
+     <a href="{% url 'admin:app_list' 'cardonalab' %}">Cardonalab</a> &rsaquo;
+     <a href="../..">{{object_type|capfirst}}s</a> &rsaquo;
+     {{object}}
+</div>
+{% endblock %}
+{% endif %}
+
+{% block content %}
+<h1>View {{object_type}}</h1>
+<div id="content-main">
+{% block object-tools %}
+<ul class="object-tools">
+  {% block object-tools-extra %}{% endblock %}
+  {% if is_bookmarked %}
+  <li><a href="../remove_bookmark">Remove Bookmark</a></li>
+  {% else %}
+  <li><a href="../add_bookmark" class="addlink">Bookmark</a></li>
+  {% endif %}
+  <li><a href="../history">History</a></li>
+  <li><a href=".." class="viewsitelink">Edit</a></li>
+</ul>
+{% endblock %}
+
+{% if object.creator %}
+<div class="float-right">
+  About
+  <ul>
+    <li>Author: {{object.creator}}</li>
+    <li>Created: {{object.created|date:"M d, Y"}}</li>
+    <li>Updated: {{object.updated|date:"M d, Y"}}</li>
+  </ul>
+  {% if object.files.all|length > 0 %}
+  Files
+  <ul>
+	{% for file in object.files.all %}
+		<li><a href="{{file.file.url}}">{{file.file.name|filename}}</a></li>
+	{% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endif %}
+
+{%block object_body%}{%endblock%}
+</div>
+{%endblock%}

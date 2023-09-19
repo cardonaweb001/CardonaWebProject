@@ -1,0 +1,222 @@
+{% extends "admin/base_site.html" %}
+{% load filename %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+
+<h1>My Bookmarks</h1>
+
+{% if bookmarks.chemicals|length > 0 %}
+    <h2>Chemicals</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Manufacturer</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for chemical in bookmarks.chemicals %}
+            <tr class="{% cycle 'row1' 'row2' %}">
+                <td><a href="{% url 'admin:Chemical_view' chemical.id %}">{{chemical.label}}{{chemical.number}}</a></td>
+                <td>{{chemical.name}}</td>
+                <td>{{chemical.manufacturer}}</td>
+                <td>{{chemical.location}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+{% endif %}
+
+{% if bookmarks.manufacturers|length > 0 %}
+    <h2>Manufacturers</h2>
+    <ul>
+        {% for manufacturer in bookmarks.manufacturers %}
+        <li><a href="{% url 'admin:Manufacturer_view' manufacturer.id %}">{{manufacturer}}</a></li>
+        {% endfor %}
+    </ul>
+    <br><br>
+{% endif %}
+
+{% if bookmarks.locations|length > 0 %}
+    <h2>Storage Locations</h2>
+    <ul>
+    {% for location in bookmarks.locations %}
+    <li><a href="{% url 'admin:StorageLocation_view' location.id %}">{{location}}</a></li>
+    {% endfor %}
+    </ul>
+    <br><br>
+{% endif %}
+
+{% if bookmarks.primers|length > 0 %}
+    <h2>Primers</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Template</th>
+                <th>Location</th>
+                <th>Tm</th>
+                <th>Restriction Sites</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for primer in bookmarks.primers %}
+            <tr class="{% cycle 'row1' 'row2' %}">
+                <td><a href="{% url 'admin:Primer_view' primer.id %}">{{primer.id}}</a></td>
+                <td>{{primer.template}}</td>
+                <td>{{primer.location}}</td>
+                <td>{{primer.tm}}</td>
+                <td>{{primer.restriction_sites}}</td>
+                <td>{{primer.notes}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+{% endif %}
+
+{% if bookmarks.plasmids|length > 0 %}
+    <h2>Plasmids</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Marker</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plasmid in bookmarks.plasmids %}
+            <tr class="{% cycle 'row1' 'row2' %}">
+                <td><a href="{% url 'admin:Plasmid_view' plasmid.id %}">{{plasmid.name}}</a></td>
+                <td>{{plasmid.marker}}</td>
+                <td>{{plasmid.notes}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+{% endif %}
+
+{% if bookmarks.strains|length > 0 %}
+    <h2>Strains</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Species</th>
+                <th>Genotype</th>
+                <th>Resistance</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for strain in bookmarks.strains %}
+            <tr class="{% cycle 'row1' 'row2' %}">
+                <td><a href="{% url 'admin:Strain_view' strain.id %}">{{strain.name}}</a></td>
+                <td>{{strain.species}}</td>
+                <td>{{strain.genotype}}</td>
+                <td>{{strain.resistance}}</td>
+                <td>{{strain.notes}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+{% endif %}
+
+{% if bookmarks.stocks|length > 0 %}
+    <h2>Stocks</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Strain</th>
+                <th>Plasmid</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in bookmarks.stocks %}
+            <tr class="{% cycle 'row1' 'row2' %}">
+                <td><a href="{% url 'admin:Stock_view' stock.id %}">{{stock.id}}</a></td>
+                <td><a href="{% url 'admin:Strain_view' stock.strain.id %}">{{stock.strain}}</a></td>
+                <td><a href="{% url 'admin:Plasmid_view' stock.plasmid.id %}">{{stock.plasmid}}</a></td>
+                <td>{{stock.notes}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+{% endif %}
+
+{% if bookmarks.libstocks|length > 0 %}
+    <h2>Library Items</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Location</th>
+                <th>Species</th>
+                <th>Gene Target</th>
+                <th>Plasmid Map</th>
+                <th>Forward Primer</th>
+                <th>Resistance</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for libstock in bookmarks.libstocks %}
+            <tr class="{% cycle 'row1' 'row2' %}">
+                <td><a href="{% url 'admin:LibStock_view' libstock.id %}">{{libstock}}</a></td>
+                <td>{{libstock.location}}</td>
+                <td>{{libstock.species}}</td>
+                <td>{{libstock.gene_target}}</td>
+                <td>{% if libstock.plasmid_map %}<a href="{{libstock.plasmid_map.url}}">{{libstock.plasmid_map.name|filename}}</a>{% else %}No file attached{% endif %}</td>
+                <td><a href="{% url 'admin:Primer_view' libstock.forward_primer.id %}">{{libstock.forward_primer}}</a></td>
+                <td>{{libstock.resistance}}</td>
+                <td>{{libstock.notes}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+{% endif %}
+
+{% if bookmarks.genomes|length > 0 %}
+    <h2>Genomes</h2>
+    <ul>
+        {% for genome in bookmarks.genomes %}
+        <li><a href="{% url 'admin:Genome_view' genome.id %}">{{genome}}</a></li>
+        {% endfor %}
+    </ul>
+    <br><br>
+{% endif %}
+
+{% if bookmarks.protocols|length > 0 %}
+    <h2>Protocols</h2>
+    <ul>
+        {% for protocol in bookmarks.protocols %}
+        <li><a href="{% url 'admin:Protocol_view' protocol.id %}">{{protocol}}</a></li>
+        {% endfor %}
+    </ul>
+    <br><br>
+{% endif %}
+
+{% if bookmarks.tags|length > 0 %}
+    <h2>Protocol Tags</h2>
+    <ul>
+        {% for tag in bookmarks.tags %}
+        <li><a href="{% url 'admin:Tag_view' tag.id %}">{{tag}}</a></li>
+        {% endfor %}
+    </ul>
+    <br><br>
+{% endif %}
+
+{% endblock %}
